@@ -25,8 +25,7 @@ class PacketField(object):
         The byte order of the field
     """
 
-    def __init__(self, name, data_type, bit_length, bit_offset=None,
-                 byte_order='big'):
+    def __init__(self, name, data_type, bit_length, bit_offset=None, byte_order="big"):
         """
         Definition of a field contained in a packet.
 
@@ -58,25 +57,31 @@ class PacketField(object):
         """
 
         if not isinstance(name, str):
-            raise TypeError('name parameter must be a str')
+            raise TypeError("name parameter must be a str")
         if not isinstance(data_type, str):
-            raise TypeError('data_type parameter must be a str')
+            raise TypeError("data_type parameter must be a str")
         if not isinstance(bit_length, (int, np.integer)):
-            raise TypeError('bit_length parameter must be an int')
+            raise TypeError("bit_length parameter must be an int")
         if not (bit_offset is None or isinstance(bit_offset, (int, np.integer))):
-            raise TypeError('bit_offset parameter must be an int')
+            raise TypeError("bit_offset parameter must be an int")
         if not isinstance(byte_order, str):
-            raise TypeError('byte_order parameter must be a str')
+            raise TypeError("byte_order parameter must be a str")
 
-        valid_data_types = ('uint', 'int', 'float', 'str', 'fill')
+        valid_data_types = ("uint", "int", "float", "str", "fill")
         if data_type not in valid_data_types:
-            raise ValueError('data_type set to {0} - must be one of {valids}'.format(
-                data_type, valids=repr(valid_data_types)))
+            raise ValueError(
+                "data_type set to {0} - must be one of {valids}".format(
+                    data_type, valids=repr(valid_data_types)
+                )
+            )
 
-        valid_byte_orders = ('big', 'little')
+        valid_byte_orders = ("big", "little")
         if byte_order not in valid_byte_orders:
-            raise ValueError('byte_order set to {0} - must be one of {valids}'.format(
-                 byte_order, valids=repr(valid_byte_orders)))
+            raise ValueError(
+                "byte_order set to {0} - must be one of {valids}".format(
+                    byte_order, valids=repr(valid_byte_orders)
+                )
+            )
 
         self._name = name
         self._data_type = data_type
@@ -100,9 +105,11 @@ class PacketField(object):
 
         values = {k: repr(v) for (k, v) in self.__dict__.items()}
 
-        return ('PacketField(name={_name}, data_type={_data_type}, '
-                'bit_length={_bit_length}, bit_offset={_bit_offset}, '
-                'byte_order={_byte_order})'.format(**values))
+        return (
+            "PacketField(name={_name}, data_type={_data_type}, "
+            "bit_length={_bit_length}, bit_offset={_bit_offset}, "
+            "byte_order={_byte_order})".format(**values)
+        )
 
     def __iter__(self):
         """Define the iterator for the PacketField class object.
@@ -117,11 +124,15 @@ class PacketField(object):
             The PacketField custom iterator object
         """
 
-        return iter([('name', self._name),
-                     ('dataType', self._data_type),
-                     ('bitLength', self._bit_length),
-                     ('bitOffset', self._bit_offset),
-                     ('byteOrder', self._byte_order)])
+        return iter(
+            [
+                ("name", self._name),
+                ("dataType", self._data_type),
+                ("bitLength", self._bit_length),
+                ("bitOffset", self._bit_offset),
+                ("byteOrder", self._byte_order),
+            ]
+        )
 
 
 class Packet(object):
@@ -202,26 +213,67 @@ class ParseMultiplePackets(object):
         self._packets = packets
         self._apid_lookup = apid_lookup
 
-        self._ccsds_header = Packet([
-            PacketField(name='HDR_VER', data_type='uint', bit_offset=0, bit_length=3),
-            PacketField(name='HDR_TYPE', data_type='uint', bit_offset=3, bit_length=1),
-            PacketField(name='HDR_SHDR', data_type='uint', bit_offset=4, bit_length=1),
-            PacketField(name='HDR_APID', data_type='uint', bit_offset=5, bit_length=11),
-            PacketField(name='HDR_GRP', data_type='uint', bit_offset=0, bit_length=2),
-            PacketField(name='HDR_SEQ', data_type='uint', bit_offset=2, bit_length=14),
-            PacketField(name='HDR_LEN', data_type='uint', bit_offset=0, bit_length=16),
-            PacketField(name='HDR_SPARE', data_type='fill', bit_offset=0, bit_length=1),
-            PacketField(name='HDR_RT_PB', data_type='fill', bit_offset=1, bit_length=1),
-            PacketField(name='HDR_FLASH_PAGE', data_type='uint', bit_offset=2, bit_length=6),
-            PacketField(name='HDR_FLASH_BLOCK', data_type='uint', bit_offset=0, bit_length=14),
-            PacketField(name='HDR_TIME_VALID', data_type='uint', bit_offset=6, bit_length=1),
-            PacketField(name='HDR_YEAR', data_type='uint', bit_offset=7, bit_length=11),
-            PacketField(name='HDR_DAY', data_type='uint', bit_offset=2, bit_length=9),
-            PacketField(name='HDR_HOUR', data_type='uint', bit_offset=3, bit_length=5),
-            PacketField(name='HDR_MIN', data_type='uint', bit_offset=0, bit_length=6),
-            PacketField(name='HDR_SEC', data_type='uint', bit_offset=6, bit_length=6),
-            PacketField(name='HDR_USEC', data_type='uint', bit_offset=4, bit_length=20),
-         ])
+        self._ccsds_header = Packet(
+            [
+                PacketField(
+                    name="HDR_VER", data_type="uint", bit_offset=0, bit_length=3
+                ),
+                PacketField(
+                    name="HDR_TYPE", data_type="uint", bit_offset=3, bit_length=1
+                ),
+                PacketField(
+                    name="HDR_SHDR", data_type="uint", bit_offset=4, bit_length=1
+                ),
+                PacketField(
+                    name="HDR_APID", data_type="uint", bit_offset=5, bit_length=11
+                ),
+                PacketField(
+                    name="HDR_GRP", data_type="uint", bit_offset=0, bit_length=2
+                ),
+                PacketField(
+                    name="HDR_SEQ", data_type="uint", bit_offset=2, bit_length=14
+                ),
+                PacketField(
+                    name="HDR_LEN", data_type="uint", bit_offset=0, bit_length=16
+                ),
+                PacketField(
+                    name="HDR_SPARE", data_type="fill", bit_offset=0, bit_length=1
+                ),
+                PacketField(
+                    name="HDR_RT_PB", data_type="fill", bit_offset=1, bit_length=1
+                ),
+                PacketField(
+                    name="HDR_FLASH_PAGE", data_type="uint", bit_offset=2, bit_length=6
+                ),
+                PacketField(
+                    name="HDR_FLASH_BLOCK",
+                    data_type="uint",
+                    bit_offset=0,
+                    bit_length=14,
+                ),
+                PacketField(
+                    name="HDR_TIME_VALID", data_type="uint", bit_offset=6, bit_length=1
+                ),
+                PacketField(
+                    name="HDR_YEAR", data_type="uint", bit_offset=7, bit_length=11
+                ),
+                PacketField(
+                    name="HDR_DAY", data_type="uint", bit_offset=2, bit_length=9
+                ),
+                PacketField(
+                    name="HDR_HOUR", data_type="uint", bit_offset=3, bit_length=5
+                ),
+                PacketField(
+                    name="HDR_MIN", data_type="uint", bit_offset=0, bit_length=6
+                ),
+                PacketField(
+                    name="HDR_SEC", data_type="uint", bit_offset=6, bit_length=6
+                ),
+                PacketField(
+                    name="HDR_USEC", data_type="uint", bit_offset=4, bit_length=20
+                ),
+            ]
+        )
 
     def start_over(self):
         """Reset the system and start anew.
@@ -262,9 +314,9 @@ class ParseMultiplePackets(object):
 
         if self._file_bytes is None:
             if isinstance(file, str):
-                self._file_bytes = np.fromstring(file.read(), 'u1')
+                self._file_bytes = np.fromstring(file.read(), "u1")
             else:
-                self._file_bytes = np.fromfile(file, 'u1')
+                self._file_bytes = np.fromfile(file, "u1")
 
         field_arrays = None
 
@@ -274,22 +326,29 @@ class ParseMultiplePackets(object):
 
             # Read one header packet.
 
-            header_field_arrays = self._ccsds_header.read_one(self._file_bytes[self._offset:])
+            header_field_arrays = self._ccsds_header.read_one(
+                self._file_bytes[self._offset :]
+            )
             try:
-                which_packet = self._apid_lookup[header_field_arrays['HDR_APID']]
+                which_packet = self._apid_lookup[header_field_arrays["HDR_APID"]]
             except IndexError:
                 # if we got a HDR_APID we don't understand, code will simply raise an
                 # Exception for the caller to catch.  Initial comments said the code
                 # should error out gracefully by returning None but that is not what
                 # the code actually does.
 
-                raise TypeError("ERROR - unknown APID {apid}!".format(
-                                 apid=header_field_arrays['HDR_APID']))
+                raise TypeError(
+                    "ERROR - unknown APID {apid}!".format(
+                        apid=header_field_arrays["HDR_APID"]
+                    )
+                )
 
-            field_arrays = self._packets[which_packet].read_one(self._file_bytes[self._offset:])
+            field_arrays = self._packets[which_packet].read_one(
+                self._file_bytes[self._offset :]
+            )
 
             # can't remember where 7 comes from
-            self._offset = self._offset + header_field_arrays['HDR_LEN'] + 7
-            return {'type': which_packet, 'data': field_arrays}
+            self._offset = self._offset + header_field_arrays["HDR_LEN"] + 7
+            return {"type": which_packet, "data": field_arrays}
         else:
             return None

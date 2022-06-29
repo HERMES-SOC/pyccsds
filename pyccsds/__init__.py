@@ -12,6 +12,13 @@ with the CCSDS space packet protocol based upon the flight software
 documentation provided by the various instrument teams.
 """
 
+# see license/LICENSE.rst
+
+try:
+    from .version import __version__
+except ImportError:
+    __version__ = "unknown"
+
 # For egg_info test builds to pass, put package imports here.
 
 from .interface import (Packet, PacketField, ParseMultiplePackets)
