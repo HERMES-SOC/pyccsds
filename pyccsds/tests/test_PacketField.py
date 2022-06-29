@@ -1,4 +1,4 @@
-from src.pyccsds.interface import PacketField
+from pyccsds.interface import PacketField
 
 def test_PacketField():
 
